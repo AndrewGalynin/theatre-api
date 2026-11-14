@@ -1,0 +1,131 @@
+[
+  {
+    "model": "theatre.theatrehall",
+    "pk": 1,
+    "fields": {
+      "name": "Main Stage",
+      "rows": 15,
+      "seats_in_row": 20
+    }
+  },
+  {
+    "model": "theatre.theatrehall",
+    "pk": 2,
+    "fields": {
+      "name": "Chamber Hall",
+      "rows": 8,
+      "seats_in_row": 10
+    }
+  },
+  {
+    "model": "theatre.genre",
+    "pk": 1,
+    "fields": {
+      "name": "Drama"
+    }
+  },
+  {
+    "model": "theatre.genre",
+    "pk": 2,
+    "fields": {
+      "name": "Tragedy"
+    }
+  },
+  {
+    "model": "theatre.genre",
+    "pk": 3,
+    "fields": {
+      "name": "Comedy"
+    }
+  },
+  {
+    "model": "theatre.actor",
+    "pk": 1,
+    "fields": {
+      "first_name": "Benedict",
+      "last_name": "Cumberbatch"
+    }
+  },
+  {
+    "model": "theatre.actor",
+    "pk": 2,
+    "fields": {
+      "first_name": "Andrew",
+      "last_name": "Scott"
+    }
+  },
+  {
+    "model": "theatre.actor",
+    "pk": 3,
+    "fields": {
+      "first_name": "Cate",
+      "last_name": "Blanchett"
+    }
+  },
+  {
+    "model": "theatre.actor",
+    "pk": 4,
+    "fields": {
+      "first_name": "Jodie",
+      "last_name": "Comer"
+    }
+  },
+  {
+    "model": "theatre.play",
+    "pk": 1,
+    "fields": {
+      "title": "Hamlet",
+      "description": "The tragedy of the Prince of Denmark seeking revenge against his uncle who murdered his father.",
+      "genres": [1, 2],
+      "actors": [1, 2],
+      "image": null
+    }
+  },
+  {
+    "model": "theatre.play",
+    "pk": 2,
+    "fields": {
+      "title": "A Streetcar Named Desire",
+      "description": "A fading Southern belle moves in with her sister and brutish brother-in-law in New Orleans.",
+      "genres": [1],
+      "actors": [3, 4],
+      "image": null
+    }
+  },
+  {
+    "model": "theatre.performance",
+    "pk": 1,
+    "fields": {
+      "play": 1,
+      "theatre_hall": 1,
+      "show_time": "2026-11-15T19:00:00Z"
+    }
+  },
+  {
+    "model": "theatre.performance",
+    "pk": 2,
+    "fields": {
+      "play": 2,
+      "theatre_hall": 2,
+      "show_time": "2026-11-16T18:30:00Z"
+    }
+  },
+  {
+    "model": "theatre.reservation",
+    "pk": 1,
+    "fields": {
+      "created_at": "2026-11-14T10:30:00Z",
+      "user": 1
+    }
+  },
+  {
+    "model": "theatre.ticket",
+    "pk": 1,
+    "fields": {
+      "row": 5,
+      "seat": 12,
+      "performance": 1,
+      "reservation": 1
+    }
+  }
+]
