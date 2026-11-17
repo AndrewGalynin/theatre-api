@@ -1,0 +1,5 @@
+-r requirements.txt
+flake8
+django-stubs
+djangorestframework-stubs
+types-PyYAML

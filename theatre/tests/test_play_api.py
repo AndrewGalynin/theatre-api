@@ -110,6 +110,10 @@ class AuthenticatedPlayApiTests(TestCase):
         self.assertIn(serializer2.data, res.data)
         self.assertNotIn(serializer3.data, res.data)
 
+    def test_filter_plays_by_invalid_genres_returns_400(self):
+        res = self.client.get(PLAY_URL, {"genres": "abc"})
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_filter_plays_by_actors(self):
         play1 = sample_play(title="Play 1")
         play2 = sample_play(title="Play 2")
