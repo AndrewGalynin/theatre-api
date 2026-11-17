@@ -5,6 +5,7 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import ValidationError
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -55,7 +56,12 @@ class PlayViewSet(viewsets.ModelViewSet):
 
     @staticmethod
     def _params_to_ints(qs):
-        return [int(str_id) for str_id in qs.split(",")]
+        try:
+            return [int(str_id) for str_id in qs.split(",")]
+        except ValueError:
+            raise ValidationError(
+                {"detail": "Filter IDs must be comma-separated integers."}
+            )
 
     def get_queryset(self):
         title = self.request.query_params.get("title")
@@ -139,18 +145,28 @@ class PerformanceViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         date = self.request.query_params.get("date")
-        play_id_str = self.request.query_params.get("play")
+        play_id = self.request.query_params.get("play")
 
         queryset = self.queryset
 
         if date:
-            date = datetime.strptime(date, "%Y-%m-%d").date()
-            queryset = queryset.filter(show_time__date=date)
+            try:
+                date = datetime.strptime(date, "%Y-%m-%d").date()
+                queryset = queryset.filter(show_time__date=date)
+            except ValueError:
+                raise ValidationError(
+                    {"date": "Date must be in YYYY-MM-DD format."}
+                )
 
-        if play_id_str:
-            queryset = queryset.filter(play_id=int(play_id_str))
+        if play_id:
+            try:
+                queryset = queryset.filter(play_id=int(play_id))
+            except ValueError:
+                raise ValidationError(
+                    {"play": "Play ID must be an integer."}
+                )
 
-        return queryset
+        return queryset.distinct()
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -164,7 +180,8 @@ class PerformanceViewSet(viewsets.ModelViewSet):
             OpenApiParameter(
                 "date",
                 type=OpenApiTypes.DATE,
-                description="Filter by performance date (ex. ?date=2026-11-15)",
+                description="Filter by performance date "
+                            "(ex. ?date=2026-11-15)",
             ),
             OpenApiParameter(
                 "play",

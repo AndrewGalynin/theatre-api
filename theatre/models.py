@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
+
 class TheatreHall(models.Model):
     name = models.CharField(max_length=255)
     rows = models.IntegerField()

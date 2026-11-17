@@ -102,6 +102,10 @@ class AuthenticatedPerformanceApiTests(TestCase):
         self.assertIn(perf1.id, ids)
         self.assertNotIn(perf2.id, ids)
 
+    def test_filter_performances_by_invalid_play_returns_400(self):
+        res = self.client.get(PERFORMANCE_URL, {"play": "abc"})
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_retrieve_performance_detail_with_taken_places(self):
         performance = sample_performance()
         reservation = Reservation.objects.create(user=self.user)
